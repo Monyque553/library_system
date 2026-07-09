@@ -8,7 +8,37 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id              Int    @id @default(autoincrement())
+  nome            String
+  email           String @unique
+  senha           String
+  matriculaSiape  String @unique
+  papel           String
+
+  emprestimos Emprestimo[]
+}
+
+model Book {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  autor    String
+  sinopse  String
+  status   String
+
+  emprestimos Emprestimo[]
+}
+
+model Emprestimo {
+  id Int @id @default(autoincrement())
+
+  livroId Int
+  userId  Int
+
+  prazoEmprestimo Int
+
+  dataEmprestimo DateTime
+  dataDevolucao  DateTime
+
+  livro Book @relation(fields: [livroId], references: [id])
+  user  User @relation(fields: [userId], references: [id])
 }
