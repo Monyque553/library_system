@@ -1,10 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { createUserController, listUsersController } from './scr/controllers/userController.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+app.use(express.json());
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'backend' });
@@ -13,6 +16,9 @@ app.get('/health', (_req, res) => {
 app.get('/', (_req, res) => {
   res.json({ message: 'Library API running' });
 });
+
+app.post('/users', createUserController);
+app.get('/users', listUsersController);
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
