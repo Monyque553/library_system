@@ -36,7 +36,7 @@ model Emprestimo {
   prazoEmprestimo Int
 
   dataEmprestimo DateTime
-  dataDevolucao  DateTime
+  dataDevolucao  DateTime?
 
   isQuitado Boolean
 

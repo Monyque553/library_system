@@ -1,7 +1,7 @@
 import { prisma } from '../database/prisma.js';
 
 export async function createBookService(data) {
-    if(data?.nome || data?.autor || data?.sinopse || data?.status){
+    if(!data?.nome || !data?.autor || !data?.sinopse || !data?.status){
         throw new Error('Todos os campos são obrigatórios.');
     }
 

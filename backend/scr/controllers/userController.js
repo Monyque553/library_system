@@ -1,9 +1,9 @@
-import { createUserService, getUsersService, getUserByIdService } from '../services/userService.js';
+import { createUserService, getUsersService, getUserByIdService, getUserByParamService } from '../services/userService.js';
 
 export async function createUserController(req, res) {
   try {
-    user = getUserByParamService({ email: req.body.email });
-    if (user) {
+    const existingUser = await getUserByParamService({ email: req.body.email });
+    if (existingUser) {
       return res.status(400).json({ error: 'Usuário com este email já existe.' });
     }
     const user = await createUserService(req.body);

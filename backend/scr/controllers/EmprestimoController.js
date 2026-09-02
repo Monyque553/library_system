@@ -1,3 +1,4 @@
+import { createEmprestimoService, getEmprestimoByUser, updateEmprestimoService } from '../services/EmprestimoService.js';
 
 export async function createEmprestimoController(req, res) {
     try {

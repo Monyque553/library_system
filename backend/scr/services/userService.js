@@ -1,7 +1,7 @@
 import { prisma } from '../database/prisma.js';
 
 export async function createUserService(data) {
-  if (!data?.nome || !data?.email || !data?.senha || !data?.matriculaSiape || !data?.papel) {
+  if (!data?.nome || !data?.email || !data?.senha || !data?.papel) {
     throw new Error('Todos os campos são obrigatórios.');
   }
 
@@ -10,7 +10,6 @@ export async function createUserService(data) {
       nome: data.nome,
       email: data.email,
       senha: data.senha,
-      matriculaSiape: data.matriculaSiape,
       papel: data.papel,
     },
   });
