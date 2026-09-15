@@ -1,9 +1,16 @@
-import { createUserService, getUsersService, getUserByIdService, getUserByParamService } from '../services/userService.js';
+import {
+  createUserService,
+  deleteUserService,
+  getUsersService,
+  getUserByIdService,
+  getUserByParamService,
+  updateUserService,
+} from '../services/userService.js';
 
 export async function createUserController(req, res) {
   try {
-    const existingUser = await getUserByParamService({ email: req.body.email });
-    if (existingUser) {
+    const existingUsers = await getUserByParamService({ email: req.body.email });
+    if (existingUsers.length > 0) {
       return res.status(400).json({ error: 'Usuário com este email já existe.' });
     }
     const user = await createUserService(req.body);
@@ -33,13 +40,34 @@ export async function getUserByIdController(req, res){
 
 export async function getUserByParamController(req, res) {
     try {
-        const filters = req.query;
-        const user = await getUserByParamService(filters);
-        if (!user) {
+        if (Object.keys(req.query).length === 0) {
+            return res.status(400).json({ error: 'Informe pelo menos um filtro.' });
+        }
+
+        const users = await getUserByParamService(req.query);
+        if (users.length === 0) {
             return res.status(404).json({ error: 'Usuário não encontrado.' });
         }
-        res.json(user);
+        res.json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
   }
+
+export async function updateUserController(req, res) {
+  try {
+    const user = await updateUserService(req.params.id, req.body);
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export async function deleteUserController(req, res) {
+  try {
+    const user = await deleteUserService(req.params.id);
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}

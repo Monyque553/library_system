@@ -1,4 +1,4 @@
-import { createEmprestimoService, getEmprestimoByUser, updateEmprestimoService } from '../services/EmprestimoService.js';
+import { createEmprestimoService, getEmprestimoByUser, updateEmprestimoService, getEmprestimosService } from '../services/EmprestimoService.js';
 
 export async function createEmprestimoController(req, res) {
     try {
@@ -6,6 +6,16 @@ export async function createEmprestimoController(req, res) {
         res.status(201).json(emprestimo);
     } catch (error) {
         res.status(400).json({ error: error.message });
+    }
+}
+
+
+export async function listEmprestimosController(_req, res) {
+    try {
+        const emprestimos = await getEmprestimosService();
+        res.status(200).json(emprestimos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 }
 

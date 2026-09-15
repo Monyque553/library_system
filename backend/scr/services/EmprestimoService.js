@@ -1,13 +1,13 @@
 import { prisma } from '../database/prisma.js';
 
 export async function createEmprestimoService(data) {
-    if (!data?.userId || !data?.bookId || !data?.dataEmprestimo || !data?.prazoEmprestimo) {
+    if (!data?.userId || !data?.livroId || !data?.dataEmprestimo || !data?.prazoEmprestimo) {
         throw new Error('Todos os campos são obrigatórios.');
     }
 
     const emprestimo = await prisma.emprestimo.create({
         data: {
-          livroId: data.bookId,
+          livroId: data.livroId,
           userId: data.userId,
           dataEmprestimo: new Date(data.dataEmprestimo),
           prazoEmprestimo: Number(data.prazoEmprestimo),
@@ -18,11 +18,22 @@ export async function createEmprestimoService(data) {
     return emprestimo;
 }
 
+
 export async function getEmprestimoByUser (userId) {
     const emprestimos = await prisma.emprestimo.findMany({
         where: { userId: Number(userId) },
     });
     return emprestimos;
+}
+
+export async function getEmprestimosService () {
+    return prisma.emprestimo.findMany();
+}
+
+
+
+export async function getBooksService(){
+    return prisma.book.findMany();
 }
 
 

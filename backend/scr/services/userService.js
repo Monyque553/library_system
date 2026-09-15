@@ -18,21 +18,46 @@ export async function createUserService(data) {
 }
 
 export async function getUsersService() {
-  return prisma.user.findMany();
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      papel: true,
+    },
+  });
 }
 
-export async function getUserByIdService(id){
-    const user = await prisma.user.findUnique({
-        where: { id: Number(id) },
-    });
-    return user;
+export async function getUserByIdService(id) {
+  return prisma.user.findUnique({
+    where: { id: Number(id) },
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      papel: true,
+    },
+  });
 }
 
 export async function getUserByParamService(filters) {
-    const user = await prisma.user.findUnique({
-        where: filters,
-    });
-    return user;
+  return prisma.user.findMany({
+    where: {
+      nome: filters.nome
+        ? { contains: filters.nome, mode: 'insensitive' }
+        : undefined,
+      email: filters.email
+        ? { equals: filters.email, mode: 'insensitive' }
+        : undefined,
+      papel: filters.papel || undefined,
+    },
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      papel: true,
+    },
+  });
 }
 
 export async function updateUserService (id, data) {

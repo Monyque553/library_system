@@ -41,5 +41,6 @@ export async function deleteBooksService(id) {
     const book = await prisma.book.delete({
         where: { id: Number (id) },
     });
+    return book;
 }
 
